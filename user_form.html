@@ -35,7 +35,7 @@
         <div class="field">
             <label class="label" for="user_password">Contraseña:</label>
             <div class="control">
-                <input class="input" type="text" id="user_password" placeholder="Example:*********">
+                <input class="input" type="password" id="user_password" placeholder="Example:*********">
             </div>
         </div>
         <div class="field">
@@ -59,14 +59,16 @@
 
             function getValues() {
                 return {
-                    firstName: document.getElementById('firstName').value,
-                    lastName: document.getElementById('lastName').value,
+                    user_name: document.getElementById('user_name').value,
                     email: document.getElementById('email').value,
+                    user_password: document.getElementById('user_password').value,
+                    telefono:document.getElementById("telefono").value,
+                    ciudad:document.getElementById("ciudad").value,
                 }
             }
             
 
-            const url = 'http://localhost:3000/driver';
+            const url = 'http://localhost:3000/user';
             const method = 'POST';
             const headers = {
                 'Accept': 'application/json',
