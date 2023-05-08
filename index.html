@@ -4,25 +4,47 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
     <title>In Driver</title>
 </head>
-<body>
-    <div class="box">
-        <h1 class="title is-1" style="text-align: center;">In Drive</h1>
-        <h2 class="subtitle is-3" style="text-align: center;font-size: small;"><i>Bienvenido a In drive, Favor de iniciar sesion o registrarse</i></h2>
-        <nav>
-            <ul class="navi">
-                <li> <a href="/user_form.html" style="color:black;border-radius: 5px; background-color:skyblue;
-                border-style:inset;
-                border:2px"><b><i>User Form</i></b></a></li>
-            </ul>
+<body style="padding: 0;margin: 0;box-sizing: border-box;">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">In Drive</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Inicar Sesion</a>
+                    </li>
+                </ul>
+            </div>
         </nav>
-    </div>
-    <div class="box my-6">
-        <div class="field">
-            <button class="button" style="border-style: dashed; border-radius: 20px; background-color:greenyellow"
-            >Registrarse como Usuario</button>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="contenedor_imagen" style="align-items: center;">
+                    <img src="https://cdn6.aptoide.com/imgs/0/f/8/0f8db7206136728df0b0c2784861dbb9_fgraphic.png" alt="In Driver" style=" width:80%;padding-left:20%;padding-top:2%;">
+                </div>
+                <div class="alerta" id="alertaR" hidden="true" style="background-color: goldenrod;width:40%;text-align: center;padding:10; border-radius: 20px;position: absolute; left:30%;top:30%">
+                    <h4>Registrarse como</h4>
+                    <button class="btn btn-dark" onclick="irRegistroConductor();">Conductor</button>
+                    <button class="btn btn-dark" onclick="irRegistroUsuario()">Usuario</button>
+                </div>
+                <div class="card">
+                    <div class="card-body" style="align-items: center; text-align:center;position: relative;">
+                        <h3 style="text-align:center;">Favor de Iniciar Sesion o de Registrarse</h3>
+                        <button class="btn btn-primary" id="sesion" style="border-radius: 30px;">Inicar Sesion</button>
+                        <button class="btn btn-primary" onclick="registro();" id="registro" style="border-radius: 30px;">Registrarse</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script>
@@ -48,6 +70,15 @@
             fetch(url, medatata)
             .then(response => response.json())
             .then(response => console.log(JSON.stringify(response)))
+        }
+        function registro(){
+            document.getElementById('alertaR').hidden=false;
+        }
+        function irRegistroUsuario(){
+            location.href="user_form.html";
+        }
+        function irRegistroConductor(){
+            location.href="driver_form.html";
         }
     </script>
 </body>

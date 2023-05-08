@@ -18,7 +18,19 @@ app.get('/', (req, res) => {
 
 app.post('/user',(req, res) => {
   const body = req.body;
-  const query = `INSERT INTO conductor(user_name, email, user_password, telefono, ciudad) VALUES ('${body.user_name}', '${body.email}','${body.user_password}',${body.telefono},${body.ciudad});`;
+  const query = `INSERT INTO usuario(user_name, email, user_password, telefono, ciudad) VALUES ('${body.user_name}', '${body.email}','${body.user_password}','${body.telefono}','${body.ciudad}');`;
+  connection.connect();
+  connection.query( query, (err, rows, fields) => {
+    if (err) throw err
+    console.log('1 record inserted');
+  })
+  connection.end();
+  res.send('1 record inserted');
+})
+
+app.post('/driver',(req, res) => {
+  const body = req.body;
+  const query = `INSERT INTO conductor(user_name, email, user_password, ciudad,telefono) VALUES ('${body.user_name}', '${body.email}','${body.user_password}','${body.ciudad}','${body.telefono}');`;
   connection.connect();
   connection.query( query, (err, rows, fields) => {
     if (err) throw err
@@ -35,8 +47,8 @@ app.listen(port, () => {
 const connection = mysql.createConnection({
   host: 'localhost',
   port: '3306',
-  user: 'root',
-  password: 'Mathews%%##31//01##%%',
+  user: 'proyecto',
+  password: 'proyecto_final',
   database: 'proyecto_final'
 })
 
