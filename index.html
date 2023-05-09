@@ -32,12 +32,12 @@
                 <div class="contenedor_imagen" style="align-items: center;">
                     <img src="https://cdn6.aptoide.com/imgs/0/f/8/0f8db7206136728df0b0c2784861dbb9_fgraphic.png" alt="In Driver" style=" width:80%;padding-left:20%;padding-top:2%;">
                 </div>
-                <div class="alerta" id="alertaR" hidden="true" style="background-color: goldenrod;width:40%;text-align: center;padding:10; border-radius: 20px;position: absolute; left:30%;top:30%">
+                <div class="alerta" id="alertaR" hidden="true" style="background-color: goldenrod;width:40%;text-align: center;padding:10; border-radius: 20px;position: flex; left:30%;top:30%">
                     <h4>Registrarse como</h4>
                     <button class="btn btn-dark" onclick="irRegistroConductor();">Conductor</button>
                     <button class="btn btn-dark" onclick="irRegistroUsuario()">Usuario</button>
                 </div>
-                <div class="card">
+                <div class="card" id="registro">
                     <div class="card-body" style="align-items: center; text-align:center;position: relative;">
                         <h3 style="text-align:center;">Favor de Iniciar Sesion o de Registrarse</h3>
                         <button class="btn btn-primary" id="sesion" style="border-radius: 30px;">Inicar Sesion</button>
@@ -73,6 +73,8 @@
         }
         function registro(){
             document.getElementById('alertaR').hidden=false;
+            document.getElementById("registro").hidden=true;
+            document.getElementById('alertaR').style.display="block";
         }
         function irRegistroUsuario(){
             location.href="user_form.html";
