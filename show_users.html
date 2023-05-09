@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>In Driver</title>
+</head>
+<body style="padding: 0;margin: 0;box-sizing: border-box;">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">In Drive</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Inicar Sesion</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="col-md-10">
+            <table class="table-hover">
+                <tr class="table-active">
+                    <th >Id</th>
+                    <th >Nombre Usuario</th>
+                    <th >Contraseña</th>
+                    <th >Email</th>
+                    <th >Ciudad</th>
+                </tr>
+                <tbody id="mytable">
+                
+                
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-success" onclick="getUsers()">Ver Registros</button>
+    </div>
+    <script>
+        function getUsers() {
+            const url = 'http://localhost:3000/user';
+            const method = 'GET';
+            const headers = {
+                'Accept': 'application/json'
+            };
+            const medatata = { method, headers };
+            let obj;
+            fetch(url, medatata)
+            .then(response => response.json())
+            .then(response =>  usuarios(response));   
+            console.log(obj);
+           // usuarios(obj);    
+        }
+        function usuarios(data) {
+            let table = document.getElementById("mytable");
+            for(let i = 0; i < data.length; i++) {
+            console.log(data.length);
+                let row = `<tr>  
+                                <td>${data[i].id}</td>
+                                <td>${data[i].user_name}</td>
+                                <td>${data[i].user_password}</td>
+                                <td>${data[i].email}</td>
+                                <td>${data[i].ciudad}</td>
+                          </tr>`
+                console.log(`${data[i].id}`);
+                table.innerHTML += row;
+            }
+        }
+        
+    </script>
+</body>
+</html>
