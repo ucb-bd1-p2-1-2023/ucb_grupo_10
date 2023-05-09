@@ -16,6 +16,7 @@ app.get('/', (req, res) => {
   res.send('API is working');
 })
 
+//POSTS
 app.post('/user',(req, res) => {
   const body = req.body;
   const query = `INSERT INTO usuario(user_name, email, user_password, telefono, ciudad) VALUES ('${body.user_name}', '${body.email}','${body.user_password}','${body.telefono}','${body.ciudad}');`;
@@ -43,6 +44,18 @@ app.post('/driver',(req, res) => {
 app.listen(port, () => {
   console.log(`Project sample is running on: ${port}`)
 })
+
+//GETS
+app.get("/user", (req, res) => {
+  const query = `SELECT * FROM usuario`;
+  connection.connect();
+  connection.query(query,(err,rows) => {
+      console.log(rows);
+    res.send( rows);
+  })
+  connection.end();
+});
+
 
 const connection = mysql.createConnection({
   host: 'localhost',
