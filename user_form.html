@@ -47,6 +47,7 @@
                             <div class="form-group">
                                 <label for="ciudad" >Ciudad</label>
                                 <select class="form-select" id ="ciudad" style="text-align: center;">
+                                    <option value="" disabled selected hidden>Ciudad</option>
                                     <option>La Paz</option>
                                     <option>Tarija</option>
                                     <option>Santa Cruz</option>
@@ -57,7 +58,16 @@
                                     <option>Cochabamba</option>
                                 </select>
                             </div>
-                            <button type="button" onclick= "submitForm()" class="btn btn-success" style="margin-top: 20px;border-radius: 30px;">Registrar</button>
+                            <div class="buttons">
+                                <ul style="display: inline-block ; text-align: center;padding-inline-start: 0;padding-inline: 30%; padding-inline-end: 0;">
+                                    <li style="list-style: none;display: inline-block;">
+                                    <button type="button" onclick= "submitForm()" class="btn btn-success" style="margin-top: 20px;border-radius: 30px;">Registrar</button>
+                                    </li>
+                                    <li style="list-style:none;display: inline-block;">
+                                        <button type="button" onclick= "irUsuarios()" class="btn btn-success" style="margin-top: 20px;border-radius: 30px;" >Ver Usuarios</button>
+                                    </li>
+                                </ul>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -71,6 +81,21 @@
         </footer>
     </div>
     <script>
+        function irUsuarios(){
+            location.href="show_users.html";
+        }
+        function emptyValues(){
+            const use = document.getElementById("user_name");
+            const email = document.getElementById("email");
+            const pass = document.getElementById("user_password");
+            const tel = document.getElementById("telefono");
+            const city = document.getElementById("ciudad");
+            use.value="";
+            email.value="";
+            pass.value="";
+            tel.value="";
+            city.value="";
+        }
         function submitForm() {
 
             function getValues() {
@@ -100,7 +125,7 @@
             setTimeout(function() {
                 document.getElementById("alert").hidden = true;
             },5000);
-            
+            emptyValues();
         }
     </script>
 </body>
