@@ -13,6 +13,7 @@ const port = 3000;
 
 
 app.get('/', (req, res) => {
+  connection.connect();
   res.send('API is working');
 })
 
@@ -20,19 +21,16 @@ app.get('/', (req, res) => {
 app.post('/user',(req, res) => {
   const body = req.body;
   const query = `INSERT INTO usuario(user_name, email, user_password, telefono, ciudad) VALUES ('${body.user_name}', '${body.email}','${body.user_password}','${body.telefono}','${body.ciudad}');`;
-  connection.connect();
   connection.query( query, (err, rows, fields) => {
     if (err) throw err
     console.log('1 record inserted');
   })
-  connection.end();
   res.send('1 record inserted');
 })
 
 app.post('/driver',(req, res) => {
   const body = req.body;
   const query = `INSERT INTO conductor(user_name, email, user_password, ciudad,telefono) VALUES ('${body.user_name}', '${body.email}','${body.user_password}','${body.ciudad}','${body.telefono}');`;
-  connection.connect();
   connection.query( query, (err, rows, fields) => {
     if (err) throw err
     console.log('1 record inserted');
@@ -48,12 +46,10 @@ app.listen(port, () => {
 //GETS
 app.get("/user", (req, res) => {
   const query = `SELECT * FROM usuario`;
-  connection.connect();
   connection.query(query,(err,rows) => {
       console.log(rows);
     res.send( rows);
   })
-  connection.end();
 });
 
 
