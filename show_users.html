@@ -27,9 +27,9 @@
         </nav>
     </header>
     <div class="container" style="width: 90%;">
-        <div class="col-12" style="width: 100%;">
+        <div class="col-12" style="width: 100%; margin-top:10px">
             <table class="table-hover" style=" width: 100%; background-color:darkslategrey;">
-                <tr style="display: inline-block; padding-inline: 20px;" class="table-dark">
+                <tr  class="table-dark">
                     <th class="col">Id</th>
                     <th class="col">Nombre Usuario</th>
                     <th class="col">Contraseña</th>
@@ -70,12 +70,12 @@
             let table = document.getElementById("mytable");
             for(let i = 0; i < data.length; i++) {
             console.log(data.length);
-                let row = `<tr style="display: inline-block; padding-inline: 20px; " class="table-dark">  
-                                <td style="width:20%; padding-inline: 60px;text-align:justify;">${data[i].id}</td>
-                                <td style="width:20%; padding-inline: 60px;text-align:justify">${data[i].user_name}</td>
-                                <td style="width:20%; padding-inline: 60px;text-align:justify">${data[i].user_password}</td>
-                                <td style="width:20%; padding-inline: 60px;text-align:justify">${data[i].email}</td>    
-                                <td style="width:25%; padding-inline: 40px;text-align:left;" >${data[i].ciudad}</td>
+                let row = `<tr class=" table-dark">  
+                                <td class="col" >${data[i].id}</td>
+                                <td class="col" >${data[i].user_name}</td>
+                                <td class="col" >${data[i].user_password}</td>
+                                <td class="col" >${data[i].email}</td>    
+                                <td class="col" >${data[i].ciudad}</td>
                           </tr>`
                 console.log(`${data[i].id}`);
                 table.innerHTML += row;
