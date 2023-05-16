@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 })
 
 //POSTS
-app.post('/user',(req, res) => {
+app.post('/user/add',(req, res) => {
   const body = req.body;
   const query = `INSERT INTO usuario(user_name, email, user_password, telefono, ciudad) VALUES ('${body.user_name}', '${body.email}','${body.user_password}','${body.telefono}','${body.ciudad}');`;
   connection.query( query, (err, rows, fields) => {
@@ -28,7 +28,7 @@ app.post('/user',(req, res) => {
   res.send('1 record inserted');
 })
 
-app.post('/driver',(req, res) => {
+app.post('/driver/add',(req, res) => {
   const body = req.body;
   const query = `INSERT INTO conductor(user_name, email, user_password, ciudad,telefono) VALUES ('${body.user_name}', '${body.email}','${body.user_password}','${body.ciudad}','${body.telefono}');`;
   connection.query( query, (err, rows, fields) => {
@@ -44,10 +44,17 @@ app.listen(port, () => {
 })
 
 //GETS
-app.get("/user", (req, res) => {
+app.get("/getUsers", (req, res) => {
   const query = `SELECT * FROM usuario`;
   connection.query(query,(err,rows) => {
-      console.log(rows);
+    console.log(rows);
+    res.send( rows);
+  })
+});
+app.get("/getDrivers", (req, res) => {
+  const query = `SELECT * FROM conductor`;
+  connection.query(query,(err,rows) => {
+    console.log(rows);
     res.send( rows);
   })
 });
