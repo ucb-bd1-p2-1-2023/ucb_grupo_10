@@ -26,8 +26,8 @@
         <div class="row">
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-body">
-                        <form   >
+                    <div class="card-body" style="text-align:center;">
+                        <form>
                             <div class="form-group">
                                 <label for="user_name" >Nombre de Usuario</label>
                                 <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Nombre de Usuario" required>
@@ -58,15 +58,10 @@
                                     <option>Cochabamba</option>
                                 </select>
                             </div>
-                            <div class="buttons">
-                                <ul style="display: inline-block ; text-align: center;padding-inline-start: 0;padding-inline: 30%; padding-inline-end: 0;">
-                                    <li style="list-style: none;display: inline-block;">
+                            <div class="row justify-content-center" style="text-align: center">
+                                <div class="col">
                                     <button type="button" onclick= "submitForm()" class="btn btn-success" style="margin-top: 20px;border-radius: 30px;">Registrar</button>
-                                    </li>
-                                    <li style="list-style:none;display: inline-block;">
-                                        <button type="button" onclick= "irUsuarios()" class="btn btn-success" style="margin-top: 20px;border-radius: 30px;" >Ver Usuarios</button>
-                                    </li>
-                                </ul>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -109,7 +104,7 @@
             }
             
 
-            const url = 'http://localhost:3000/user';
+            const url = 'http://localhost:3000/user/add';
             const method = 'POST';
             const headers = {
                 'Accept': 'application/json',

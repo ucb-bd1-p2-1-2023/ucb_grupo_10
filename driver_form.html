@@ -57,7 +57,11 @@
                                     <option>Cochabamba</option>
                                 </select>
                             </div>
-                            <button type="button" onclick= "submitForm()" class="btn btn-success" style="margin-top: 20px;border-radius: 30px;">Registrar</button>
+                            <div class="row justify-content-center" style="text-align: center;">
+                                <div class="col">
+                                    <button type="button" onclick= "submitForm()" class="btn btn-success" style="margin-top: 20px;border-radius: 30px;">Registrar</button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -84,7 +88,7 @@
             }
             
 
-            const url = 'http://localhost:3000/driver';
+            const url = 'http://localhost:3000/driver/add';
             const method = 'POST';
             const headers = {
                 'Accept': 'application/json',
