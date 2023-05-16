@@ -26,37 +26,40 @@
             </div>
         </nav>
     </header>
-    <div class="container" style="width: 90%;">
-        <div class="col-12" style="width: 100%; margin-top:10px">
-            <table class="table-hover" style=" width: 100%; background-color:darkslategrey;text-align: center;">
-                <tr  class="table-dark">
-                    <th class="col">Id</th>
-                    <th class="col">Nombre Usuario</th>
-                    <th class="col">Contraseña</th>
-                    <th class="col">Email</th>
-                    <th class="col">Ciudad</th>
-                </tr>
-                <style>
-                    .col{
-                        padding-inline: 60px;
-                        width:20%;
-                        
-                    };
-                </style>
-                <tbody id="mytable">
-                
-                
-                </tbody>
-            </table>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12" style="width: 100%; margin-top:10px">
+                <table class="table-hover" style=" width: 100%; background-color:darkslategrey;">
+                    <tr  class="table-dark">
+                        <th class="col">Id</th>
+                        <th class="col">Nombre Usuario</th>
+                        <th class="col">Contraseña</th>
+                        <th class="col">Email</th>
+                        <th class="col">Ciudad</th>
+                    </tr>
+                    <style>
+                        .col{
+                            padding-inline: 60px;
+                            width:20%;
+                            
+                        };
+                    </style>
+                    <tbody id="mytable">
+                    
+                    
+                    </tbody>
+                </table>
+            </div>
         </div><!-- 
         <button class="btn btn-success" onclick="getUsers()">Ver Registros</button> -->
     </div>
+    
     <script>
         cargarUsuarios();
         async function cargarUsuarios() {
             const data = await getUsers();
             let table = document.getElementById("mytable");
-            if(data.length != 0){
+            if(data.length){
                 for(let i = 0; i < data.length; i++) {
                 console.log(data.length);
                 let row = `<tr class=" table-dark">  
@@ -70,23 +73,21 @@
                 table.innerHTML += row;
                 }
             }else{
-                let row1 = `<tr class="table-dark">No hay Usuarios</tr>`;
+                let row1 = `<tr class=" table-dark" style="color:white">No hay Conductores</tr>`;
                 table.innerHTML += row1;
             }
         }
         
         async function getUsers() {
-            const url = 'http://localhost:3000/getUsers';
+            const url = 'http://localhost:3000/getDrivers';
             const method = 'GET';
             const headers = {
                 'Accept': 'application/json'
             };
             const medatata = { method, headers };
-            let obj;
             const response = await fetch(url,medatata);
             const users = response.json();
             return users;
-            console.log(obj);
             
            // usuarios(obj);    
         }
