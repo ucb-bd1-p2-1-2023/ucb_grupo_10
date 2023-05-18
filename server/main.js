@@ -23,9 +23,9 @@ app.post('/user/add',(req, res) => {
   const query = `INSERT INTO usuario(user_name, email, user_password, telefono, ciudad) VALUES ('${body.user_name}', '${body.email}','${body.user_password}','${body.telefono}','${body.ciudad}');`;
   connection.query( query, (err, rows, fields) => {
     if (err) throw err
-    console.log('1 record inserted');
+    console.log('Usuario Registrado');
   })
-  res.send('1 record inserted');
+  res.send('Usuario Registrado');
 })
 
 app.post('/driver/add',(req, res) => {
@@ -33,10 +33,9 @@ app.post('/driver/add',(req, res) => {
   const query = `INSERT INTO conductor(user_name, email, user_password, ciudad,telefono) VALUES ('${body.user_name}', '${body.email}','${body.user_password}','${body.ciudad}','${body.telefono}');`;
   connection.query( query, (err, rows, fields) => {
     if (err) throw err
-    console.log('1 record inserted');
+    console.log('Conductor Registrado');
   })
-  connection.end();
-  res.send('1 record inserted');
+  res.send('Conductor Registrado');
 })
 app.post('/drive/add',(req, res) => {
   const body = req.body;
