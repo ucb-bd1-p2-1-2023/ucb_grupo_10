@@ -28,26 +28,25 @@
     </header>
     <div class="container" style="width: 90%;">
         <div class="col-12" style="width: 100%; margin-top:10px">
-            <table class="table-hover" style=" width: 100%; background-color:darkslategrey;text-align: center;">
-                <tr  class="table-dark">
-                    <th class="col">Id</th>
-                    <th class="col">Nombre Usuario</th>
-                    <th class="col">Contraseña</th>
-                    <th class="col">Email</th>
-                    <th class="col">Ciudad</th>
-                </tr>
-                <style>
-                    .col{
-                        padding-inline: 60px;
-                        width:20%;
+            <div class="table-responsive">
+                <table class="table-hover" style=" width: 100%; background-color:darkslategrey;text-align: center;">
+                    <tr  class="table-dark">
+                        <th class="col" style="padding-inline: 30px;">Id</th>
+                        <th class="col" style="padding-inline: 30px;">Nombre Usuario</th>
+                        <th class="col" style="padding-inline: 30px;">Email</th>
+                        <th class="col" style="padding-inline: 30px;">Contraseña</th>
+                        <th class="col" style="padding-inline: 30px;">Telefono</th>
+                        <th class="col" style="padding-inline: 30px;">Ciudad</th>
+                    </tr>
+                    <style>
                         
-                    };
-                </style>
-                <tbody id="mytable">
-                
-                
-                </tbody>
-            </table>
+                    </style>
+                    <tbody id="mytable">
+                    
+                    
+                    </tbody>
+                </table>
+            </div>
         </div><!-- 
         <button class="btn btn-success" onclick="getUsers()">Ver Registros</button> -->
     </div>
@@ -60,11 +59,12 @@
                 for(let i = 0; i < data.length; i++) {
                 console.log(data.length);
                 let row = `<tr class=" table-dark">  
-                                <td class="col" >${data[i].id}</td>
-                                <td class="col" >${data[i].user_name}</td>
-                                <td class="col" >${data[i].user_password}</td>
-                                <td class="col" >${data[i].email}</td>    
-                                <td class="col" >${data[i].ciudad}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].id}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].user_name}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].email}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].user_password}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].telefono}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].ciudad}</td>
                           </tr>`
                 console.log(`${data[i].id}`);
                 table.innerHTML += row;

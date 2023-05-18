@@ -76,6 +76,19 @@
         </footer>
     </div>
     <script>
+    
+    function emptyValues(){
+            const use = document.getElementById("user_name");
+            const email = document.getElementById("email");
+            const pass = document.getElementById("user_password");
+            const tel = document.getElementById("telefono");
+            const city = document.getElementById("ciudad");
+            use.value="";
+            email.value="";
+            pass.value="";
+            tel.value="";
+            city.value="";
+        }
         function submitForm() {
 
             function getValues() {
@@ -101,6 +114,7 @@
             .then(response => response.json())
             .then(response => console.log(JSON.stringify(response)))
             console.log(getValues());
+            emptyValues();
             document.getElementById("alert").hidden = false;
             setTimeout(function() {
                 document.getElementById("alert").hidden = true;
