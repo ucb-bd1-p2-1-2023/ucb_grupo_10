@@ -13,7 +13,7 @@ const port = 3000;
 
 
 app.get('/', (req, res) => {
-  connection.connect();
+  
   res.send('API is working');
 })
 
@@ -38,7 +38,20 @@ app.post('/driver/add',(req, res) => {
   connection.end();
   res.send('1 record inserted');
 })
+app.post('/drive/add',(req, res) => {
+  const body = req.body;
+  const query = `INSERT INTO coche(conductor_id,placa,marca,modelo,capacidad) VALUES (${body.conductor_id},'${body.placa}','${body.marca}','${body.modelo}',${body.capacidad});`
+  connection.query(query,(err,rows)=>{
+    if(err){
+      console.log(err);
+    }else{
+      console.log('Coche registrado');
+    }
+  })
+})
 
+
+//
 app.listen(port, () => {
   console.log(`Project sample is running on: ${port}`)
 })
@@ -58,6 +71,14 @@ app.get("/getDrivers", (req, res) => {
     res.send( rows);
   })
 });
+app.get('/getDriver', (req, res) => {
+  const name = req.query.driver_name;
+  const query = `SELECT * FROM conductor where user_name = '${name}'`
+  connection.query(query,(err,rows)=>{
+    console.log(rows);
+    res.send( rows);
+  })
+})
 
 
 const connection = mysql.createConnection({
@@ -68,3 +89,4 @@ const connection = mysql.createConnection({
   database: 'proyecto_final'
 })
 
+connection.connect();
