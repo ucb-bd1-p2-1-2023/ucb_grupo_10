@@ -12,7 +12,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">In Drive</a>
+                <a class="navbar-brand" href="/index.html">In Drive</a>
             </div>
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
@@ -55,6 +55,17 @@
                     </div>
                 </div>
             </div>
+            <div class="card-group">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Coche</h3>
+                        <div class="btn-group" >
+                            <button type="button" onclick="irRegistroCoche()" class="btn btn-primary" style="border-radius: 20px;">Registrarse</button>
+                            <button type="button" onclick="verCoches()" class="btn btn-primary" style="border-radius: 20px;margin-left:10px;">Ver Coches</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script>
@@ -69,6 +80,12 @@
         }
         function verConductores(){
             location.href="/show_drivers.html"
+        }
+        function irRegistroCoche(){
+            location.href="/drive_form.html"
+        }
+        function verCoches(){
+            location.href="/show_drives.html"
         }
     </script>
 </body>

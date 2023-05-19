@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <title>In Driver</title>
 </head>
-<body style="padding: 0;margin: 0;box-sizing: border-box;" onload="getUsers()">
+<body style="padding: 0;margin: 0;box-sizing: border-box;" >
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
@@ -32,12 +32,12 @@
                 <table class="table-hover" style=" width: 100%; background-color:darkslategrey;text-align: center;">
                     <tr  class="table-dark">
                         <th class="col" style="padding-inline: 30px;">Id</th>
-                        <th class="col" style="padding-inline: 30px;">Nombre Usuario</th>
-                        <th class="col" style="padding-inline: 30px;">Email</th>
-                        <th class="col" style="padding-inline: 30px;">Contraseña</th>
-                        <th class="col" style="padding-inline: 30px;">Telefono</th>
-                        <th class="col" style="padding-inline: 30px;">Ciudad</th>
-                        <th class="col" style="padding-inline: 30px;">Fecha de Creacion</th>
+                        <th class="col" style="padding-inline: 30px;">Nombre del Conductor</th>
+                        <th class="col" style="padding-inline: 30px;">Id del Conductor</th>
+                        <th class="col" style="padding-inline: 30px;">Placa Vehicular</th>
+                        <th class="col" style="padding-inline: 30px;">Marca</th>
+                        <th class="col" style="padding-inline: 30px;">Modelo</th>
+                        <th class="col" style="padding-inline: 30px;">Capacidad</th>
                     </tr>
                     <style>
                         
@@ -52,33 +52,33 @@
         <button class="btn btn-success" onclick="getUsers()">Ver Registros</button> -->
     </div>
     <script>
-        cargarUsuarios();
-        async function cargarUsuarios() {
-            const data = await getUsers();
+        cargarCoches();
+        async function cargarCoches() {
+            const data = await getDrivesWithUser();
             let table = document.getElementById("mytable");
             if(data.length != 0){
                 for(let i = 0; i < data.length; i++) {
                 console.log(data.length);
                 let row = `<tr class=" table-dark">  
                                 <td class="col" style="padding-inline: 30px;">${data[i].id}</td>
-                                <td class="col" style="padding-inline: 30px;">${data[i].user_name}</td>
-                                <td class="col" style="padding-inline: 30px;">${data[i].email}</td>
-                                <td class="col" style="padding-inline: 30px;">${data[i].user_password}</td>
-                                <td class="col" style="padding-inline: 30px;">${data[i].telefono}</td>
-                                <td class="col" style="padding-inline: 30px;">${data[i].ciudad}</td>
-                                <td class="col" style="padding-inline: 30px;">${data[i].fecha_creacion}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].conductors_name}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].conductors_id}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].placa}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].marca}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].modelo}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].capacidad}</td>
                           </tr>`
                 console.log(`${data[i].id}`);
                 table.innerHTML += row;
                 }
             }else{
-                let row1 = `<tr class="table-dark">No hay Usuarios</tr>`;
+                let row1 = `<tr class="table-dark">No hay Coches</tr>`;
                 table.innerHTML += row1;
             }
         }
         
-        async function getUsers() {
-            const url = 'http://localhost:3000/getUsers';
+        async function getDrivesWithUser() {
+            const url = 'http://localhost:3000/getDrivesWithDriver';
             const method = 'GET';
             const headers = {
                 'Accept': 'application/json'
