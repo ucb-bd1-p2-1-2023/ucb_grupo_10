@@ -79,7 +79,7 @@ app.get('/getDriver', (req, res) => {
   })
 })
 app.get('/getDrivesWithDriver',(req, res) => {
-  const query =`SELECT ch.id,user_name as conductors_name,c.id as conductors_id,placa,marca,modelo,capacidad From conductor c inner Join coche ch on c.id=ch.conductor_id`;
+  const query =`SELECT ch.id,user_name as conductors_name,c.id as conductors_id,placa,UPPER(marca) as marca,modelo,capacidad From conductor c inner Join coche ch on c.id=ch.conductor_id`;
   connection.query(query,(err,rows)=>{
     if(err){
       console.log(err);
