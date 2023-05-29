@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
+    <title>In Driver</title>
+</head>
+<body onload="cargarViajes()">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/index.html">In Drive</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Inicar Sesion</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container" style="margin-top:10px">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <h3 class="card-title">Registrar Pago</h3>
+                    <div class="card-body">
+                        <div class="form-group" id="viaje" style="text-align:center">
+                            <label for="id_viaje">Id del Viaje</label>
+                            <select class="form-select" id="id_viaje" style="text-align: center;">
+                            </select>
+                            <input type="number" class="form-control" disabled hidden id="pasajero_id">
+                            <input type="number" class="form-control" disabled hidden id="conductor_id">
+                            <button class="btn btn-success" onclick="seleccionarTodo();" style="margin-top:10px;border-radius: 20px;" type="button">Elegir</button>
+                        </div>
+                        <form id="formulario" style="text-align:center;" hidden="true">
+                            <div class="form-group" id="metodo">
+                                <label for="name_metodo">Metodo de pago</label>
+                                <select class="form-select" id="name_metodo" style="text-align: center;">
+                                </select>
+                                <input type="number" class="form-control" disabled hidden id="metodo_id">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-success" onclick="cargarMetodo()">Registrar</button>
+                                </div>
+                            </div>
+                            <div class="form-group" hidden="true" id="total_viaje">
+                                <label for="total">Total</label>
+                                <input type="number" id="total" class="form-control" placeholder="Total">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-success" onclick="registrarPago()">Registrar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="alert alert-dismissible alert-success" hidden="true" id = "alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <strong>Pago Registrado</strong> De forma exitosa
+                  </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        function registrarPago(){
+            function getValues(){
+                return {
+                    viaje_id:document.getElementById("id_viaje").value,
+                    pasajero_id: document.getElementById("pasajero_id").value,
+                    conductor_id: document.getElementById("conductor_id").value,
+                    metodo_id: document.getElementById("metodo_id").value,
+                    total: document.getElementById("total").value,
+                }
+            }
+            const url = `http://localhost:3000/Payment/add`;
+            const method = "POST";
+            const headers = {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+            const body = JSON.stringify(getValues());
+            const medatata = {method, headers, body};
+            fetch(url, medatata)
+            .then(response => response.json());
+            document.getElementById("alert").hidden=false;
+            setTimeout(function(){
+                document.getElementById("alert").hidden=true;
+                location.href="/index.html";
+            },2500)
+        }
+        
+        
+        
+        async function seleccionarTodo(){
+            const datos = await getPasajero_Conductor();
+            const pasajero = document.getElementById("pasajero_id");
+            const conductor = document.getElementById("conductor_id");
+            console.log(datos);
+            pasajero.value = datos[0].pasajero_id;
+            conductor.value = datos[0].conductor_id;
+            revelarFormulario();
+            document.getElementById('viaje').hidden = true;
+            await cargarMetodos();
+        }
+        function revelarFormulario(){
+            const formu = document.getElementById('formulario');
+            formu.hidden = false;
+        }
+        
+        async function getMetodosPago(){
+            const url = `http://localhost:3000/Payment/method/getAll`
+            const method = `GET`;
+            const headers = {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            }
+            const medatata = {method,headers};
+            const response = await fetch(url,medatata);
+            return response.json();
+        }
+        async function cargarMetodos(){
+            const name = document.getElementById("name_metodo");
+            const metodos = await getMetodosPago();
+            for(let i=0;i<metodos.length;i++){
+                let row = `<option>${metodos[i].nombre}</option>`
+                name.innerHTML +=row;
+            }
+        }
+        async function cargarMetodo(){
+            const metodo_id = document.getElementById("metodo_id");
+            const metodo = await getMetodoPago();
+            metodo_id.value = metodo[0].id;
+            console.log(metodo_id.value);
+            document.getElementById("metodo").hidden=true;
+            document.getElementById("total_viaje").hidden=false;
+        }
+        async function getMetodoPago(){
+            const name = document.getElementById("name_metodo").value;
+            const url = `http://localhost:3000/Payment/method/get?name=${name}`
+            const method = `GET`;
+            const headers = {
+                'Accept' : 'application/json'
+            }
+            const medatata = {method,headers};
+            const response = await fetch(url,medatata);
+            return response.json();
+        }
+        
+        async function getPasajero_Conductor(){
+            const id = document.getElementById("id_viaje").value;
+            const url = `http://localhost:3000/Travels/get?id=${id}`
+            const method = `GET`;
+            const headers = {
+                'Accept' : 'application/json'
+            }
+            const medatata = {method,headers};
+            const response = await fetch(url,medatata);
+            return response.json();
+        }
+        
+        
+        async function cargarViajes(){
+            const select = document.getElementById('id_viaje');
+            const travels = await getViajes();
+            console.log(travels);
+            if(travels.length){
+                for (let i = 0; i< travels.length; i++) {
+                    let row = `<option>${travels[i].id}</option>`
+                    select.innerHTML += row;
+                }
+            }
+           
+        }
+        async function getViajes(){
+            const url = `http://localhost:3000/Travels/getAll`
+            const method = `GET`;
+            const headers = {
+                'Accept' : 'application/json'
+            }
+            const medatata = {method,headers};
+            const response = await fetch(url,medatata);
+            return response.json();
+        }
+    </script>
+</body>
+</html>

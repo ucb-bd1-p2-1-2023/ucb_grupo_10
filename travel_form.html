@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
+    <title>In Driver</title>
+</head>
+<body onload="obtenerConductorCoche()">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/index.html">In Drive</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Inicar Sesion</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <h3 class="card-title">Registrar Viaje</h3>
+                    <div class="card-body">
+                        <form style="text-align:center; margin-top:10px">
+                            <div class="form-group" id="coche-cont">
+                                <label for="coche">Elegir el coche</label>
+                                <p>Se muestra al conductor la marca del coche y la capacidad</p>
+                                <select name="coche" id="coche" class="form-select"></select>
+                                <input id="conductor" disabled hidden="true">
+                                <button type="button" class="btn btn-success" style="border-radius:20px; margin-top: 10px" onclick="ocultarCoche()">Registrar</button>
+                            </div>
+                            <div class="form-group" id="ubicacion_init" hidden="true">
+                                <label for="ubicacion_name">Nombre del Lugar</label>
+                                <input id="ubicacion_name" type="text" class="form-control" placeholder="Nombre del lugar">
+                                <button type="button" onclick="obtenerPosicion()" class="btn btn-primary">Obtener ubicacion</button>
+                                <input type="number" id="latitud_init" disabled hidden="true">
+                                <input type="number" id="longitud_init" disabled hidden="true">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-success" style="border-radius:20px;" onclick="ocultarUbicacionInicial()">Registrar Ubicacion</button>
+                                </div>
+                            </div>
+                            <div class="form-group" id="ubicacion_end" hidden="true" style="text-align:center;">
+                                <div class="group" style="margin-top: 10px">
+                                    <label for="ubicacion_name_end">Ubicacion Final</label>
+                                    <div>
+                                    <label for="latitud_end">Latitud</label>
+                                    <input type="number" class="form-control" id="latitud_end" required>
+                                    <label for="longitud_end">Longitud</label>
+                                    <input type="number" class="form-control" id="longitud_end" required>
+                                    </div>
+                                </div>
+                                    <button type="button" class="btn btn-success" style="border-radius:20px" onclick="ocultarUbicacionFinal()">Registrar Destino</button>
+                                </div>
+                            </div>
+                            <div class="form-group" id="pasajero"   hidden="true">
+                                <select name="usuario" id="usuario" class="form-select"></select>
+                                <input id="pasajero_id" disabled hidden="true">
+                                <div class="" style="margin-top: 10px;text-align:center;">
+                                    <button type="button" class="btn btn-success"style="border-radius:20px" onclick="seleccionarUsuario()">Seleccionar</button>
+                                </div>
+                            </div>
+                            <div class="form-group" id="tarifario" hidden="true">
+                                <label for="tarifa">Tarifa por cada 100 metros</label>
+                                <input type="number" id="tarifa" class="form-control" placeholder="Tarifa del viaje" required> 
+                                <div style="margin-top: 10px;text-align: center;">
+                                    <button type="button" onclick="RegistrarViaje()" class="btn btn-success" style="border-radius:20px">Registrar Viaje</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="alert alert-dismissible alert-success" hidden="true" id = "alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <strong>Viaje Registrado</strong> De forma exitosa
+                  </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+    
+        async function ocultarCoche(){
+            document.getElementById("coche-cont").hidden=true;
+            document.getElementById("pasajero").hidden = false;
+            await cargarConductor();
+            await cargarUsuarios();
+        }
+    
+        function ocultarUsuario(){
+            document.getElementById("pasajero").hidden = true;
+            document.getElementById("ubicacion_init").hidden = false;
+        }
+    
+        function ocultarUbicacionInicial(){
+            document.getElementById("ubicacion_init").hidden = true;
+            document.getElementById("ubicacion_end").hidden = false;
+        }
+        function ocultarUbicacionFinal(){
+            document.getElementById("ubicacion_end").hidden = true;
+            document.getElementById("tarifario").hidden = false;
+        }
+        async function obtenerConductorCoche(){
+            cargarCoches();
+            async function cargarCoches(){
+                let coches = await getCoches();
+                let coches_id = document.getElementById("coche");
+                for(let i=0;i<coches.length;i++){
+                    let row = `<option value="${coches[i].id}" > ${coches[i].conductor_name}  ${coches[i].Marca} ${coches[i].asientos}</option>`
+                    coches_id.innerHTML += row;
+                }
+                
+            }
+            async function getCoches(){
+                const url = "http://localhost:3000/Drive/get";
+                const method = "GET";
+                const headers = {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                }
+                const medatata = {method,headers};
+                const datos = await fetch(url,medatata);
+                return datos.json();
+            }
+        }
+        
+        async function cargarConductor(){
+            let conductor = document.getElementById("conductor");
+            const conductores = await getConductor();
+            conductor.value = conductores[0].id;
+        }
+        
+        async function getConductor(){
+            const coche_id = document.getElementById("coche").value;
+            const url = `http://localhost:3000/drive/getDriver?id=${coche_id}`
+            const method = 'GET'
+            const headers = {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+            const medatata = {method, headers};
+            const datos = await fetch(url,medatata);
+            return datos.json();
+        }
+        
+        async function cargarUsuarios(){
+            let datos = document.getElementById("usuario");
+            let pasajeros = await getPasajeros();
+            console.log(pasajeros);
+            for (let i = 0; i < pasajeros.length; i++){
+                let row= `<option value="${pasajeros[i].user_name}"> ${pasajeros[i].user_name}</option>`
+                datos.innerHTML += row;
+            }
+        }
+        
+        async function getPasajeros(){
+            const url = `http://localhost:3000/getUsers`
+            const method = 'GET'
+            const headers = {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+            const medatata = {method, headers};
+            const datos = await fetch(url,medatata);
+            return datos.json();
+        }
+        
+        async function seleccionarUsuario(){
+            let pasajero = await getUsuario();
+            document.getElementById("pasajero_id").value = pasajero[0].id;
+            console.log(document.getElementById("pasajero_id").value);
+            ocultarUsuario();
+        }
+        
+        async function getUsuario(){
+            const name = document.getElementById("usuario").value;
+            const url = `http://localhost:3000/User/get?name=${name}`
+            const method = 'GET'
+            const headers = {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+            const medatata = {method, headers};
+            const datos = await fetch(url,medatata);
+            return datos.json();
+        }
+        
+        function obtenerPosicion(){
+            if(navigator.geolocation){
+                var sucess = function(position){
+                    let longitud = document.getElementById("longitud_init");
+                    let latitud = document.getElementById("latitud_init");
+                    longitud.value = position.coords.longitude;
+                    latitud.value = position.coords.latitude;
+                }
+                navigator.geolocation.getCurrentPosition(sucess,function(msg){
+                    console.log(msg);
+                })
+            }
+        }
+        function RegistrarViaje(){
+            function getValues(){
+                let fecha = new Date().toISOString().slice(0,19).replace('T',' ');
+                let fecha_fin = new Date();
+                fecha_fin.setMinutes(fecha_fin.getMinutes() + 30);
+                fecha_fin = fecha_fin.toISOString().slice(0,19).replace('T',' ');
+                console.log(fecha_fin);
+                return{
+                    pasajero_id: document.getElementById("pasajero_id").value,
+                    conductor_id: document.getElementById("conductor").value,
+                    coche_id: document.getElementById("coche").value,
+                    lat_init: document.getElementById("latitud_init").value,
+                    lng_init: document.getElementById("longitud_init").value,
+                    lat_end: document.getElementById("latitud_end").value,
+                    lng_end: document.getElementById("longitud_end").value,
+                    fecha_init: fecha,
+                    fecha_end: fecha_fin,
+                    tarifa: document.getElementById("tarifa").value
+                }
+            }
+            console.log(getValues());
+            const url = `http://localhost:3000/Travel/add`;
+            const method = "POST";
+            const headers = {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+            const body = JSON.stringify(getValues());
+            const medatata = {method, headers, body};
+            fetch(url, medatata)
+            .then(response => response.json());
+            document.getElementById("alert").hidden=false;
+            setTimeout(function(){
+                document.getElementById("alert").hidden=true;
+                location.href="/index.html";
+            },2500)
+        }
+        
+    </script>
+</body>
+
+</html>

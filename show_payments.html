@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>In Driver</title>
+</head>
+<body style="padding: 0;margin: 0;box-sizing: border-box;" onload="getTravels()">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/index.html">In Drive</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Inicar Sesion</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container" style="width: 90%;">
+        <div class="col-12" style="width: 100%; margin-top:10px">
+            <div class="table-responsive">
+                <table class="table-hover" style=" width: 100%; background-color:darkslategrey;text-align: center;">
+                    <tr  class="table-dark">
+                        <th class="col" style="padding-inline: 30px;">Id</th>
+                        <th class="col" style="padding-inline: 30px;">Id Pasajero</th>
+                        <th class="col" style="padding-inline: 30px;">Id Conductor</th>
+                        <th class="col" style="padding-inline: 30px;">Id del Viaje</th>
+                        <th class="col" style="padding-inline: 30px;">Id Metodo de Pago</th>
+                        <th class="col" style="padding-inline: 30px;"> Metodo de Pago</th>
+                        <th class="col" style="padding-inline: 30px;">Total Bs.</th>
+                    </tr>
+                    <style>
+                        
+                    </style>
+                    <tbody id="mytable">
+                    
+                    
+                    </tbody>
+                </table>
+            </div>
+        </div><!-- 
+        <button class="btn btn-success" onclick="getUsers()">Ver Registros</button> -->
+    </div>
+    <script>
+        cargarPagos();
+        async function cargarPagos() {
+            const data = await getPagos();
+            let table = document.getElementById("mytable");
+            if(data.length != 0){
+                for(let i = 0; i < data.length; i++) {
+                console.log(data.length);
+                let row = `<tr class=" table-dark">  
+                                <td class="col" style="padding-inline: 30px;">${data[i].id}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].usuario_id}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].conductor_id}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].viaje_id}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].metodo_id}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].nombre}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].total} Bs.</td>
+                          </tr>`
+                console.log(`${data[i].id}`);
+                table.innerHTML += row;
+                }
+            }else{
+                let row1 = `<tr class="table-dark">No hay Pagos</tr>`;
+                table.innerHTML += row1;
+            }
+        }
+        
+        async function getPagos() {
+            const url = 'http://localhost:3000/Payments/getAll';
+            const method = 'GET';
+            const headers = {
+                'Accept': 'application/json'
+            };
+            const medatata = { method, headers };
+            const response = await fetch(url,medatata);
+            const payments = response.json();
+            return payments;
+            
+           // usuarios(obj);    
+        }
+        
+        
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>In Driver</title>
+</head>
+<body style="padding: 0;margin: 0;box-sizing: border-box;" onload="getTravels()">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/index.html">In Drive</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Inicar Sesion</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container" style="width: 90%;">
+        <div class="col-12" style="width: 100%; margin-top:10px">
+            <div class="table-responsive">
+                <table class="table-hover" style=" width: 100%; background-color:darkslategrey;text-align: center;">
+                    <tr  class="table-dark">
+                        <th class="col" style="padding-inline: 30px;">Id</th>
+                        <th class="col" style="padding-inline: 30px;">Id Pasajero</th>
+                        <th class="col" style="padding-inline: 30px;">Id Conductor</th>
+                        <th class="col" style="padding-inline: 30px;">Id Vehiculo</th>
+                        <th class="col" style="padding-inline: 30px;">Latitud Inicial</th>
+                        <th class="col" style="padding-inline: 30px;">Longitud Inicial</th>
+                        <th class="col" style="padding-inline: 30px;">Latitud Final</th>
+                        <th class="col" style="padding-inline: 30px;">Longitud Final</th>
+                        <th class="col" style="padding-inline: 30px;">Fecha de Inicio</th>
+                        <th class="col" style="padding-inline: 30px;">Fecha de Llegada</th>
+                        <th class="col" style="padding-inline: 30px;">Tarifa cada 100 metros</th>
+                    </tr>
+                    <style>
+                        
+                    </style>
+                    <tbody id="mytable">
+                    
+                    
+                    </tbody>
+                </table>
+            </div>
+        </div><!-- 
+        <button class="btn btn-success" onclick="getUsers()">Ver Registros</button> -->
+    </div>
+    <script>
+        cargarViajes();
+        async function cargarViajes() {
+            const data = await getTravels();
+            let table = document.getElementById("mytable");
+            if(data.length != 0){
+                for(let i = 0; i < data.length; i++) {
+                console.log(data.length);
+                let fecha_init = new Date(data[i].fecha_inicial).toISOString().slice(0,19).replace('T',' ');
+                let fecha_end = new Date(data[i].fecha_final).toISOString().slice(0,19).replace('T',' ');
+                let row = `<tr class=" table-dark">  
+                                <td class="col" style="padding-inline: 30px;">${data[i].id}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].pasajero_id}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].conductor_id}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].coche_id}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].latitud_init}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].longitud_init}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].latitud_final}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].longitud_final}</td>
+                                <td class="col" style="padding-inline: 30px;">${fecha_init}</td>
+                                <td class="col" style="padding-inline: 30px;">${fecha_end}</td>
+                                <td class="col" style="padding-inline: 30px;">${data[i].tarifa} Bs.</td>
+                          </tr>`
+                console.log(`${data[i].id}`);
+                table.innerHTML += row;
+                }
+            }else{
+                let row1 = `<tr class="table-dark">No hay Viajes</tr>`;
+                table.innerHTML += row1;
+            }
+        }
+        
+        async function getTravels() {
+            const url = 'http://localhost:3000/Travels/getAll';
+            const method = 'GET';
+            const headers = {
+                'Accept': 'application/json'
+            };
+            const medatata = { method, headers };
+            let obj;
+            const response = await fetch(url,medatata);
+            const users = response.json();
+            return users;
+            console.log(obj);
+            
+           // usuarios(obj);    
+        }
+        
+        
+        
+    </script>
+</body>
+</html>
