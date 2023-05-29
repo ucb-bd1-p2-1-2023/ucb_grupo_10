@@ -48,6 +48,28 @@ app.post('/drive/add',(req, res) => {
     }
   })
 })
+app.post('/Travel/add',(req,res)=>{
+  const body = req.body;
+  const query = `Insert into viaje(conductor_id, pasajero_id, coche_id , latitud_init ,longitud_init, latitud_final ,longitud_final ,fecha_inicial, fecha_final , tarifa) Values(${body.conductor_id},${body.pasajero_id},${body.coche_id},${body.lat_init},${body.lng_init},${body.lat_end},${body.lng_end},'${body.fecha_init}','${body.fecha_end}',${body.tarifa});`
+  connection.query(query,(err,rows)=>{
+    if(err){
+      console.log(err);
+    }
+    console.log("Viaje Registrado");
+  })
+})
+app.post('/Payment/add',(req,res)=>{
+  const body= req.body;
+  const query = `Insert into pago(usuario_id,metodo_id,viaje_id,conductor_id,total) Values (${body.pasajero_id},${body.metodo_id},${body.viaje_id},${body.conductor_id}, ${body.total});`
+  connection.query(query,(err,rows)=>{
+    if(err){
+      console.log(err);
+    }
+    console.log("Pago Registrado");
+  })
+})
+
+
 
 
 //
@@ -87,6 +109,81 @@ app.get('/getDrivesWithDriver',(req, res) => {
     res.send(rows);
   })
 })
+app.get('/Drive/get',(req,res)=>{
+  const query = `select c.id as id,con.user_name as conductor_name, c.marca as Marca, c.capacidad as asientos FROM coche c INNER JOIN conductor con on c.conductor_id=con.id`
+  connection.query(query,(err,rows)=>{
+    if(err){
+      console.log(err)
+    }
+    res.send(rows)
+  })
+})
+app.get(`/drive/getDriver`,(req,res)=>{
+  const coche_id = req.query.id;
+  const query = `SELECT conductor_id as id FROM coche where id = ${coche_id}`
+  connection.query(query,(err,rows)=>{
+    if(err){
+      console.log(err)
+    }
+    res.send(rows)
+  })
+})
+app.get(`/User/get`,(req,res)=>{
+  const name = req.query.name;
+  const query = `Select * from usuario where user_name = '${name}';`;
+  connection.query(query,(err,rows)=>{
+    res.send(rows);
+  })
+})
+app.get('/Travels/getAll',(req,res)=>{
+  const query = `SELECT * FROM viaje`
+  connection.query(query,(err,rows)=>{
+    if(err){
+      console.log(err)
+    }
+    res.send(rows)
+  })
+})
+
+app.get('/Travels/get',(req,res)=>{
+  const id = req.query.id;
+  const query =`Select * from viaje where id = ${id}`
+  connection.query(query,(err,rows)=>{
+    if(err){
+      console.log(err)
+    }
+    res.send(rows)
+  })
+})
+app.get('/Payment/method/getAll',(req,res)=>{
+  const query=`Select * from metodo_pago`;
+  connection.query(query,(err,rows)=>{
+    if(err){
+      console.log(err)
+    }
+    res.send(rows)
+  })
+})
+app.get('/Payment/method/get',(req,res)=>{
+  const name = req.query.name;
+  const query = ` Select * from metodo_pago where nombre = '${name}'`
+  connection.query(query,(err,rows)=>{
+    if(err){
+      console.log(err)
+    }
+    res.send(rows)
+  })
+})
+app.get('/Payments/getAll',(req,res)=>{
+  const query=`Select pago.id,usuario_id,conductor_id,viaje_id,metodo_id,nombre,total from pago inner JOIN metodo_pago on pago.metodo_id=metodo_pago.id;`;
+  connection.query(query,(err,rows)=>{
+    if(err){
+      console.log(err)
+    }
+    res.send(rows)
+  })
+})
+
 
 const connection = mysql.createConnection({
   host: 'localhost',

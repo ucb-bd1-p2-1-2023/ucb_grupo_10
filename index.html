@@ -65,6 +65,24 @@
                         </div>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Viaje</h3>
+                        <div class="btn-group" >
+                            <button type="button" onclick="irRegistroViaje()" class="btn btn-primary" style="border-radius: 20px;">Registrarse</button>
+                            <button type="button" onclick="verViajes()" class="btn btn-primary" style="border-radius: 20px;margin-left:10px;">Ver Viajes</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Pago</h3>
+                        <div class="btn-group" >
+                            <button type="button" onclick="irRegistroPago()" class="btn btn-primary" style="border-radius: 20px;">Registrarse</button>
+                            <button type="button" onclick="verPagos()" class="btn btn-primary" style="border-radius: 20px;margin-left:10px;">Ver Pagos</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -86,6 +104,18 @@
         }
         function verCoches(){
             location.href="/show_drives.html"
+        }
+        function irRegistroViaje(){
+            location.href ="/travel_form.html"
+        }
+        function verViajes(){
+            location.href ="/show_travels.html"
+        }
+        function irRegistroPago(){
+            location.href="/payment_form.html"
+        }
+        function verPagos(){
+            location.href="/show_payments.html"
         }
     </script>
 </body>
